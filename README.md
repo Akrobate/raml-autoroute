@@ -1,2 +1,2 @@
 # raml-autoroute
-Raml AutoRoute is an routes tool based on raml definitions
+Raml AutoRoute is a tool for your routes based on raml definitions
