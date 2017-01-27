@@ -1,0 +1,26 @@
+{
+  "name": "raml-autoroute",
+  "version": "0.0.1",
+  "description": "Raml AutoRoute is a tool for your routes based on raml definitions",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Akrobate/raml-autoroute.git"
+  },
+  "keywords": [
+    "RAML 1",
+    "routes",
+    "routes manager",
+    "routes helper",
+    "routing"
+  ],
+  "author": "Artiom FEDOROV",
+  "license": "GNU GENERAL PUBLIC LICENSE V3",
+  "bugs": {
+    "url": "https://github.com/Akrobate/raml-autoroute/issues"
+  },
+  "homepage": "https://github.com/Akrobate/raml-autoroute#readme"
+}
