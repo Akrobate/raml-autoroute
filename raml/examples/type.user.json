@@ -1,0 +1,7 @@
+{
+  "id": 1,
+  "name": "Jean Dupont",
+  "email": "jeandupont@exemple.com",
+  "created_at": "2016-03-01T10:10:10Z",
+  "updated_at": "2017-03-01T10:10:10Z"
+}

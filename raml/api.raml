@@ -1,0 +1,92 @@
+#%RAML 1.0
+title: Api node framework specifications
+baseUri: /{version}
+version: v1
+protocols:
+    - HTTP
+    - HTTPS
+
+uses:
+    TypeUser: types/user.raml
+
+/users:
+    description: Users management
+    /{id}:
+        uriParameters:
+            id:
+                description: The user id you want to fetch
+                type: integer
+                example: 1
+        get:
+            description: Get the user with the given Id
+            responses:
+                200:
+                    body:
+                        application/json:
+                            type: TypeUser.User
+                            example: !include examples/type.user.json
+
+/users2:
+    description: Users management
+    /read/{id}:
+        uriParameters:
+            id:
+                description: The user id you want to fetch
+                type: integer
+                example: 1
+        get:
+            description: Get the user with the given Id
+            responses:
+                200:
+                    body:
+                        application/json:
+                            type: TypeUser.User
+                            example: !include examples/type.user.json
+
+    /update/{id}:
+        uriParameters:
+            id:
+                description: The user id you want to fetch
+                type: integer
+                example: 1
+        get:
+            description: Get the user with the given Id
+            responses:
+                200:
+                    body:
+                        application/json:
+                            type: TypeUser.User
+                            example: !include examples/type.user.json
+    /create:
+        /me:
+            get:
+                description: Get the user with the given Id
+                responses:
+                    200:
+                        body:
+                            application/json:
+                                type: TypeUser.User
+                                example: !include examples/type.user.json
+
+/users3:
+    description: Users management
+    /read/{id}:
+        uriParameters:
+            id:
+                description: The user id you want to fetch
+                type: integer
+                example: 1
+        /account/{id_account}:
+            uriParameters:
+                id_account:
+                    description: The user id you want to fetch
+                    type: integer
+                    example: 1
+            get:
+                description: Get the user with the given Id
+                responses:
+                    200:
+                        body:
+                            application/json:
+                                type: TypeUser.User
+                                example: !include examples/type.user.json
