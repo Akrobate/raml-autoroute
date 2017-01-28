@@ -1,0 +1,23 @@
+#%RAML 1.0 Library
+
+# uses:
+
+types:
+    User:
+        type: object
+        properties:
+            id:
+                type: integer
+                description: User id
+            name:
+                type: string
+                description: Name
+            email:
+                type: string | nil
+                description: Email
+            created_at:
+                type: datetime
+                description: Creation date
+            updated_at:
+                type: datetime
+                description: Update date
