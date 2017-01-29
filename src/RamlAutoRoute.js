@@ -1,52 +1,74 @@
 "use strict";
-// declare var require: any
+// declare var require
 let camelcase = require("camelcase");
 let ucfirst = require("ucfirst");
-
-// declare var process: any
+let raml1Parser = require('raml-1-parser');
+let path = require("path");
 
 // import * as bodyParser from "body-parser";
 // import * as express from "express";
-// import * as path from "path";
-// var raml1Parser = require('raml-1-parser');
 
-/**
- * The RamlAutoRoute.
- *
- * @class RamlAutoRoute
- */
-export class RamlAutoRoute {
+module.exports = class RamlAutoRoute {
 
-    private raml_json_schema: any;
-    private flat_routes: any[];
-    private express_normalized_routes: any []
-    private routes_with_controllers_name: any[]
-    private raml_file_baseuri: string;
 
-    constructor(raml_json_schema: any) {
-        this.raml_json_schema = raml_json_schema
-        this.flat_routes = [];
-        this.express_normalized_routes = [];
-        this.routes_with_controllers_name = [];
+    constructor(raml_file) {
+        this.raml_file = raml_file
+        this.raml_json_schema = ''
+        this.flat_routes = []
+        this.express_normalized_routes = []
+        this.routes_with_controllers_name = []
+
+        // Process the raml_file
+        this.processRaml(this.raml_file)
+        this.extractFlatRoutes()
+        this.toExpressProcessRamlFlatRoutes()
+        this.generateControllersNames()
+    }
+
+    getRamlJsonSchema() {
+        return this.raml_json_schema
+    }
+
+    setRamlFile(raml_file) {
+        this.raml_file = raml_file
+    }
+
+    processRaml() {
+        var api = raml1Parser.loadApiSync(path.resolve(process.cwd(), this.raml_file));
+        api.errors().forEach(function(x){
+            console.log(JSON.stringify({
+                code: x.code,
+                message: x.message,
+                path: x.path,
+                start: x.start,
+                end: x.end,
+                isWarning: x.isWarning
+            },null,2));
+        });
+
+        this.raml_json_schema = api.toJSON()
     }
 
 
-    public extractFlatRoutes() {
+    extractFlatRoutes() {
         this.recursiveFindRoutes(this.raml_json_schema, "")
         // console.log(this.flat_routes)
     }
 
-    public getFlatRoutes() {
+
+    getFlatRoutes() {
         return this.flat_routes
     }
 
-    public getExpressNormalizedRoutes() {
+
+    getExpressNormalizedRoutes() {
         return this.express_normalized_routes
     }
 
-    public toExpressProcessRamlFlatRoutes(){
+
+    toExpressProcessRamlFlatRoutes(){
         for(let flat_route of this.flat_routes) {
-            let current_route: any = flat_route;
+            let current_route = flat_route;
 
             current_route.express_uri = flat_route.absoluteUriFull
             // str = "/users/{id}/company/{company_id}/me";
@@ -67,7 +89,7 @@ export class RamlAutoRoute {
     }
 
 
-    public recursiveFindRoutes(branch: any, version: string) {
+    recursiveFindRoutes(branch, version) {
 
         if (branch.version !== undefined) {
             version = branch.version
@@ -76,7 +98,7 @@ export class RamlAutoRoute {
 
         if (branch.absoluteUri !== undefined && branch.methods !== undefined) {
             for(let method of branch.methods) {
-                let current_route: any = {
+                let current_route = {
                     verb: method.method,
                     absoluteUri: branch.absoluteUri,
                     absoluteUriFull: branch.absoluteUri.replace('{version}', version)
@@ -92,9 +114,9 @@ export class RamlAutoRoute {
     }
 
 
-    public generateControllersNames() {
+    generateControllersNames() {
         for(let flat_route of this.express_normalized_routes) {
-            let current_controller: any = flat_route;
+            let current_controller = flat_route;
             current_controller.controller_name = this.generateFieldControllerNameFromAbsoluteUri(current_controller.absoluteUri)
             this.routes_with_controllers_name.push(current_controller)
         }
@@ -102,8 +124,8 @@ export class RamlAutoRoute {
 
 
     // Auto Routes Fields buildes
-    private generateFieldControllerNameFromAbsoluteUri(absolute_uri: string): string {
-        let response: string = absolute_uri
+    generateFieldControllerNameFromAbsoluteUri(absolute_uri) {
+        let response = absolute_uri
         response = response.replace(this.raml_file_baseuri, "")
         response = response.replace(/\//g, "_")
         response = response.replace(/{/g, "_")
@@ -112,14 +134,9 @@ export class RamlAutoRoute {
         response = ucfirst(response)
         return response
     }
-/*
-    private generateFieldabsoluteUriFull(absolute_uri: string, version: string): string {
 
-    }
-*/
 
-    public getGeneratedControllersName() {
+    getGeneratedControllersName() {
         return this.routes_with_controllers_name
     }
-
 }
