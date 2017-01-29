@@ -34,6 +34,10 @@ export class Server {
 
   /**
    * [setRamlFile description]
+<<<<<<< HEAD
+=======
+   * @todo: move out of this class
+>>>>>>> 3aca3b784eef89f333c5d52ece2d1b25c16eb18d
    * @param  {string} raml_file [description]
    * @return {[type]}           [description]
    */
@@ -44,13 +48,14 @@ export class Server {
   /**
    * [getRamlJsonSchema description]
    * @return {any} [description]
-   */
+   * @todo: move out of this class   */
   public getRamlJsonSchema(): any {
       return this.raml_json_schema
   }
 
   /**
    * [processRaml Parses the raml_file and put the result variable member]
+   * @todo: move out of this class
    */
   public processRaml(): void {
       var api = raml1Parser.loadApiSync(path.resolve(process.cwd(), this.raml_file));
