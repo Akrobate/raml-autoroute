@@ -17,7 +17,7 @@ describe('RamlAutoRoute Test', () => {
 
     it('Check that absoluteUri is correctly formed', (done) => {
         var raml_auto_route = new RamlAutoRoute(raml_test_filepath)
-        var routes_list = raml_auto_route.getGeneratedControllersName()
+        var routes_list = raml_auto_route.getRoutes()
         for (let route of routes_list) {
             if (route.absoluteUri == test_route_object.absoluteUri) {
                 done();
@@ -28,7 +28,7 @@ describe('RamlAutoRoute Test', () => {
 
     it('Check that absoluteUriFull is correctly formed', (done) => {
         var raml_auto_route = new RamlAutoRoute(raml_test_filepath)
-        var routes_list = raml_auto_route.getGeneratedControllersName()
+        var routes_list = raml_auto_route.getRoutes()
 
         for (let route of routes_list) {
             if (route.absoluteUriFull == test_route_object.absoluteUriFull) {
@@ -40,7 +40,7 @@ describe('RamlAutoRoute Test', () => {
 
     it('Check that express_uri is correctly formed', (done) => {
         var raml_auto_route = new RamlAutoRoute(raml_test_filepath)
-        var routes_list = raml_auto_route.getGeneratedControllersName()
+        var routes_list = raml_auto_route.getRoutes()
 
         for (let route of routes_list) {
             if (route.express_uri == test_route_object.express_uri) {
@@ -52,7 +52,7 @@ describe('RamlAutoRoute Test', () => {
 
     it('Check that controller_name is correctly formed', (done) => {
         var raml_auto_route = new RamlAutoRoute(raml_test_filepath)
-        var routes_list = raml_auto_route.getGeneratedControllersName()
+        var routes_list = raml_auto_route.getRoutes()
 
         for (let route of routes_list) {
             if (route.controller_name == test_route_object.controller_name) {

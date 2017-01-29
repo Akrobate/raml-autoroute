@@ -49,6 +49,9 @@ module.exports = class RamlAutoRoute {
         this.raml_json_schema = api.toJSON()
     }
 
+    getRoutes() {
+        return this.routes_with_controllers_name
+    }
 
     extractFlatRoutes() {
         this.recursiveFindRoutes(this.raml_json_schema, "")
