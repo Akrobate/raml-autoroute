@@ -9,6 +9,23 @@ protocols:
 uses:
     TypeUser: types/user.raml
 
+/testroute:
+    description: Test route !!! DO NOT MODIFY
+    /{id}:
+        uriParameters:
+            id:
+                description: Test route !!! DO NOT MODIFY
+                type: integer
+                example: 1
+        get:
+            description: Test route !!! DO NOT MODIFY
+            responses:
+                200:
+                    body:
+                        application/json:
+                            type: TypeUser.User
+                            example: !include examples/type.user.json
+
 /users:
     description: Users management
     /{id}:
