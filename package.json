@@ -1,6 +1,6 @@
 {
   "name": "raml-autoroute",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Raml AutoRoute is a tool for your routes based on raml definitions",
   "main": "index.js",
   "scripts": {
