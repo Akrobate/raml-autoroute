@@ -100,12 +100,24 @@ module.exports = class RamlAutoRoute {
         }
 
         if (branch.absoluteUri !== undefined && branch.methods !== undefined) {
+            let uriParameters
+
             for(let method of branch.methods) {
+                // console.log(JSON.stringify(method, null, 2))
+                //
+                let reponse_200 = method.responses['200']
+                console.log(reponse_200)
                 let current_route = {
                     verb: method.method,
                     absoluteUri: branch.absoluteUri,
-                    absoluteUriFull: branch.absoluteUri.replace('{version}', version)
+                    absoluteUriFull: branch.absoluteUri.replace('{version}', version),
+                    example: reponse_200.body['application/json'].example
                 }
+
+                if (branch.uriParameters !== undefined ) {
+                    current_route.uriParameters = branch.uriParameters
+                }
+
                 this.flat_routes.push(current_route)
             }
         }

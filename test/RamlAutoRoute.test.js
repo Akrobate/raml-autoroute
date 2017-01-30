@@ -26,6 +26,9 @@ describe('RamlAutoRoute Test', () => {
         throw new Error('Test route not found absoluteUri dismatch')
     })
 
+/*
+
+
     it('Check that absoluteUriFull is correctly formed', (done) => {
         var raml_auto_route = new RamlAutoRoute(raml_test_filepath)
         var routes_list = raml_auto_route.getRoutes()
@@ -61,4 +64,6 @@ describe('RamlAutoRoute Test', () => {
         }
         throw new Error('Test route not found controller_name dismatch')
     })
+
+    */
 })
