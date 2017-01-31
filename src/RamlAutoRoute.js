@@ -104,9 +104,7 @@ module.exports = class RamlAutoRoute {
 
             for(let method of branch.methods) {
                 // console.log(JSON.stringify(method, null, 2))
-                //
                 let reponse_200 = method.responses['200']
-                console.log(reponse_200)
                 let current_route = {
                     verb: method.method,
                     absoluteUri: branch.absoluteUri,
