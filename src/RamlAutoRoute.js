@@ -15,14 +15,12 @@ module.exports = class RamlAutoRoute {
         this.raml_file = raml_file
         this.raml_json_schema = ''
         this.flat_routes = []
-        this.express_normalized_routes = []
-        this.routes_with_controllers_name = []
+        this.enriched_routes = []
 
         // Process the raml_file
         this.processRaml(this.raml_file)
         this.extractFlatRoutes()
-        this.toExpressProcessRamlFlatRoutes()
-        this.generateControllersNames()
+        this.enriched_routes = this.enrichFlatRoutes()
     }
 
     getRamlJsonSchema() {
@@ -50,44 +48,15 @@ module.exports = class RamlAutoRoute {
     }
 
     getRoutes() {
-        return this.routes_with_controllers_name
+        return this.enriched_routes
     }
-
-    extractFlatRoutes() {
-        this.recursiveFindRoutes(this.raml_json_schema, "")
-        // console.log(this.flat_routes)
-    }
-
 
     getFlatRoutes() {
         return this.flat_routes
     }
 
-
-    getExpressNormalizedRoutes() {
-        return this.express_normalized_routes
-    }
-
-
-    // To remove
-    toExpressProcessRamlFlatRoutes(){
-        for(let flat_route of this.flat_routes) {
-            let current_route = flat_route;
-            current_route.express_uri = flat_route.absoluteUriFull
-            // str = "/users/{id}/company/{company_id}/me";
-            let result_str_match = flat_route.absoluteUriFull.match(/{(.*?)}/g)
-            let result = []
-            if (result_str_match !== null) {
-                result = result_str_match.map(function(val){
-                   return val
-                })
-            }
-            for (let uri_param of result) {
-                let formated_express_param = ':' + uri_param.replace('{', '').replace('}','')
-                current_route.express_uri = current_route.express_uri.replace(uri_param, formated_express_param)
-            }
-            this.express_normalized_routes.push(current_route)
-        }
+    extractFlatRoutes() {
+        this.recursiveFindRoutes(this.raml_json_schema, "")
     }
 
 
@@ -128,24 +97,22 @@ module.exports = class RamlAutoRoute {
     // new version
     // to test
     enrichFlatRoutes() {
+        let enriched_routes = [];
         for(let flat_route of this.flat_routes) {
-            let enriched_flat_routes = flat_route
-            current_controller.controller_name = this.generateFieldControllerNameFromAbsoluteUri(current_controller.absoluteUri)
-            current_controller.express_uri = this.generateExpressUrlFromAbsoluteUri(current_controller.absoluteUri)
+            //console.log(flat_route)
+            let enriched_route = {
+                verb: flat_route.verb,
+                absoluteUri: flat_route.absoluteUri,
+                absoluteUriFull: flat_route.absoluteUriFull,
+                example: flat_route.example,
+                controller_name: this.generateFieldControllerNameFromAbsoluteUri(flat_route.absoluteUri),
+                express_uri: this.generateExpressUrlFromAbsoluteUri(flat_route.absoluteUriFull),
+                unique_route_id: this.generateUniqueRouteId(flat_route.absoluteUri, flat_route.verb)
+            }
+            enriched_routes.push(enriched_route)
         }
-        this.routes_with_controllers_name.push(current_controller)
+        return enriched_routes
     }
-
-
-    // To remove
-    generateControllersNames() {
-        for(let flat_route of this.express_normalized_routes) {
-            let current_controller = flat_route
-            current_controller.controller_name = this.generateFieldControllerNameFromAbsoluteUri(current_controller.absoluteUri)
-            this.routes_with_controllers_name.push(current_controller)
-        }
-    }
-
 
     // Auto Routes Fields buildes
     generateFieldControllerNameFromAbsoluteUri(absolute_uri) {
@@ -177,9 +144,9 @@ module.exports = class RamlAutoRoute {
         return express_uri
     }
 
-    // To remove
-    getGeneratedControllersName() {
-        return this.routes_with_controllers_name
+
+    generateUniqueRouteId(absolute_uri, verb) {
+        return ucfirst(verb) + this.generateFieldControllerNameFromAbsoluteUri(absolute_uri)
     }
 
 }
