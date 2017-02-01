@@ -69,10 +69,10 @@ module.exports = class RamlAutoRoute {
     }
 
 
+    // To remove
     toExpressProcessRamlFlatRoutes(){
         for(let flat_route of this.flat_routes) {
             let current_route = flat_route;
-
             current_route.express_uri = flat_route.absoluteUriFull
             // str = "/users/{id}/company/{company_id}/me";
             let result_str_match = flat_route.absoluteUriFull.match(/{(.*?)}/g)
@@ -86,7 +86,6 @@ module.exports = class RamlAutoRoute {
                 let formated_express_param = ':' + uri_param.replace('{', '').replace('}','')
                 current_route.express_uri = current_route.express_uri.replace(uri_param, formated_express_param)
             }
-
             this.express_normalized_routes.push(current_route)
         }
     }
@@ -126,10 +125,22 @@ module.exports = class RamlAutoRoute {
         }
     }
 
+    // new version
+    // to test
+    enrichFlatRoutes() {
+        for(let flat_route of this.flat_routes) {
+            let enriched_flat_routes = flat_route
+            current_controller.controller_name = this.generateFieldControllerNameFromAbsoluteUri(current_controller.absoluteUri)
+            current_controller.express_uri = this.generateExpressUrlFromAbsoluteUri(current_controller.absoluteUri)
+        }
+        this.routes_with_controllers_name.push(current_controller)
+    }
 
+
+    // To remove
     generateControllersNames() {
         for(let flat_route of this.express_normalized_routes) {
-            let current_controller = flat_route;
+            let current_controller = flat_route
             current_controller.controller_name = this.generateFieldControllerNameFromAbsoluteUri(current_controller.absoluteUri)
             this.routes_with_controllers_name.push(current_controller)
         }
@@ -148,8 +159,27 @@ module.exports = class RamlAutoRoute {
         return response
     }
 
+    // New version generation
+    generateExpressUrlFromAbsoluteUri(absolute_uri) {
+        let express_uri = absolute_uri
+        // str = "/users/{id}/company/{company_id}/me";
+        let result_str_match = absolute_uri.match(/{(.*?)}/g)
+        let result = []
+        if (result_str_match !== null) {
+            result = result_str_match.map(function(val){
+               return val
+            })
+        }
+        for (let uri_param of result) {
+            let formated_express_param = ':' + uri_param.replace('{', '').replace('}','')
+            express_uri = express_uri.replace(uri_param, formated_express_param)
+        }
+        return express_uri
+    }
 
+    // To remove
     getGeneratedControllersName() {
         return this.routes_with_controllers_name
     }
+
 }
