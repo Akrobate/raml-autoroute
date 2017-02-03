@@ -9,7 +9,7 @@ var test_route_object = {
     absoluteUriFull: '/v1/testroute/{id}',
     express_uri: '/v1/testroute/:id',
     controller_name: 'TestrouteId',
-    unique_route_id: 'GetTestrouteId'
+    route_id: 'GetTestrouteId'
 }
 
 
@@ -64,12 +64,12 @@ describe('RamlAutoRoute Test', () => {
         throw new Error('Test route not found controller_name dismatch')
     })
 
-    it('Check that unique_route_id is correctly formed', (done) => {
+    it('Check that route_id is correctly formed', (done) => {
         var raml_auto_route = new RamlAutoRoute(raml_test_filepath)
         var routes_list = raml_auto_route.getRoutes()
 
         for (let route of routes_list) {
-            if (route.unique_route_id == test_route_object.unique_route_id) {
+            if (route.route_id == test_route_object.route_id) {
                 done();
             }
         }
