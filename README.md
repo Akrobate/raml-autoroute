@@ -1,5 +1,5 @@
 # raml-autoroute
-Tool for your routes, generators, ... based on RAML 1 definitions
+Module to easily work with RAML1 specification in order to integrate dynamic checks, routing and controls in your API server implementation.
 
 ## Installation
 
