@@ -4,12 +4,12 @@ var RamlAutoRoute = require('../index')
 var raml_test_filepath = './raml/api.raml'
 
 var test_route_object = {
+    route_id: 'GetTestrouteId',
     verb: 'get',
     absoluteUri: '/{version}/testroute/{id}',
     absoluteUriFull: '/v1/testroute/{id}',
     express_uri: '/v1/testroute/:id',
     controller_name: 'TestrouteId',
-    route_id: 'GetTestrouteId'
 }
 
 

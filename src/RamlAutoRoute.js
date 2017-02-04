@@ -13,6 +13,11 @@ let AutoRouteExamples = require('./AutoRouteExamples')
 
 module.exports = class RamlAutoRoute {
 
+//   ____  _   _ ____  _     ___ ____
+//  |  _ \| | | | __ )| |   |_ _/ ___|
+//  | |_) | | | |  _ \| |    | | |
+//  |  __/| |_| | |_) | |___ | | |___
+//  |_|    \___/|____/|_____|___\____|
 
     constructor(raml_file) {
         this.raml_file = raml_file
@@ -20,12 +25,27 @@ module.exports = class RamlAutoRoute {
         this.enriched_routes = []
         this.raml_json_schema = this.processRaml(this.raml_file)
         this._arf = new AutoRouteFormater()
-        this._are = new AutoRouteExamples()
 
         // Process the raml_file
         this.extractFlatRoutes(this.raml_json_schema)
         this.enriched_routes = this.enrichFlatRoutes(this.flat_routes)
+
+        this._are = new AutoRouteExamples(this.flat_routes)
     }
+
+    getRoutes() {
+        return this.enriched_routes
+    }
+
+    getExample(route_id) {
+        return this._are.getExample(route_id)
+    }
+
+//   ____  ____  _____     ___  _____ _____
+//  |  _ \|  _ \|_ _\ \   / / \|_   _| ____|
+//  | |_) | |_) || | \ \ / / _ \ | | |  _|
+//  |  __/|  _ < | |  \ V / ___ \| | | |___
+//  |_|   |_| \_\___|  \_/_/   \_\_| |_____|
 
     getRamlJsonSchema() {
         return this.raml_json_schema
@@ -50,9 +70,6 @@ module.exports = class RamlAutoRoute {
         return api.toJSON()
     }
 
-    getRoutes() {
-        return this.enriched_routes
-    }
 
     getFlatRoutes() {
         return this.flat_routes
@@ -74,6 +91,7 @@ module.exports = class RamlAutoRoute {
                 // console.log(JSON.stringify(method, null, 2))
                 let reponse_200 = method.responses['200']
                 let current_route = {
+                    route_id: this._arf.generateUniqueRouteId(branch.absoluteUri, method.method, this.raml_file_baseuri),
                     verb: method.method,
                     absoluteUri: branch.absoluteUri,
                     absoluteUriFull: branch.absoluteUri.replace('{version}', version),
@@ -98,11 +116,12 @@ module.exports = class RamlAutoRoute {
         for(let flat_route of flat_routes) {
             //console.log(flat_route)
             let enriched_route = {
-                route_id: this._arf.generateUniqueRouteId(flat_route.absoluteUri, flat_route.verb, this.raml_file_baseuri),
+                route_id: flat_route.route_id,
+                // route_id: this._arf.generateUniqueRouteId(flat_route.absoluteUri, flat_route.verb, this.raml_file_baseuri),
                 verb: flat_route.verb,
                 absoluteUri: flat_route.absoluteUri,
                 absoluteUriFull: flat_route.absoluteUriFull,
-                example: flat_route.example,
+                // example: flat_route.example,
                 controller_name: this._arf.generateFieldControllerNameFromAbsoluteUri(flat_route.absoluteUri, this.raml_file_baseuri),
                 express_uri: this._arf.generateExpressUrlFromAbsoluteUri(flat_route.absoluteUriFull),
             }
