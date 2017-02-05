@@ -43,8 +43,8 @@ module.exports = class RamlAutoRoute {
         return this._are.getExample(route_id)
     }
 
-    getQueryPatameters(route_id) {
-        return this._arp.getQueryPatameters(route_id)
+    getQueryParameters(route_id) {
+        return this._arp.getQueryParameters(route_id)
     }
 
 //   ____  ____  _____     ___  _____ _____
