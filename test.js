@@ -8,3 +8,7 @@ var auto_route = new RamlAutoRoute('./raml/api.raml')
 // var example = auto_route.getExample(route_id)
 
 // console.log(JSON.stringify(example, null, 2))
+
+
+var route_id = 'GetParamstestReadId'
+var example = auto_route.getQueryParameters(route_id)

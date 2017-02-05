@@ -7,6 +7,7 @@ let path = require("path");
 
 let AutoRouteFormater = require('./AutoRouteFormater')
 let AutoRouteExamples = require('./AutoRouteExamples')
+let AutoRouteParams = require('./AutoRouteParams')
 
 // import * as bodyParser from "body-parser";
 // import * as express from "express";
@@ -31,6 +32,7 @@ module.exports = class RamlAutoRoute {
         this.enriched_routes = this.enrichFlatRoutes(this.flat_routes)
 
         this._are = new AutoRouteExamples(this.flat_routes)
+        this._arp = new AutoRouteParams(this.flat_routes)
     }
 
     getRoutes() {
@@ -39,6 +41,10 @@ module.exports = class RamlAutoRoute {
 
     getExample(route_id) {
         return this._are.getExample(route_id)
+    }
+
+    getQueryPatameters(route_id) {
+        return this._arp.getQueryPatameters(route_id)
     }
 
 //   ____  ____  _____     ___  _____ _____
