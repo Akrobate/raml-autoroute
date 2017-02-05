@@ -4,26 +4,68 @@ var RamlAutoRoute = require('../index')
 var raml_test_filepath = './raml/api.raml'
 
 var test_route_object = {
-    route_id: 'GetTestrouteId',
-    verb: 'get',
-    absoluteUri: '/{version}/testroute/{id}',
-    absoluteUriFull: '/v1/testroute/{id}',
-    express_uri: '/v1/testroute/:id',
-    controller_name: 'TestrouteId',
+  "parameter1name": {
+    "name": "parameter1name",
+    "displayName": "String parameter",
+    "typePropertyKind": "TYPE_EXPRESSION",
+    "type": [
+      "string"
+    ],
+    "example": "Value String parameter",
+    "required": false,
+    "description": "The String parameter",
+    "structuredExample": {
+      "value": "Value String parameter",
+      "strict": true,
+      "name": null,
+      "structuredValue": "Value String parameter"
+    }
+  },
+  "parameter2name": {
+    "name": "parameter2name",
+    "displayName": "number parameter",
+    "typePropertyKind": "TYPE_EXPRESSION",
+    "type": [
+      "number"
+    ],
+    "example": 1984,
+    "required": false,
+    "description": "the number parameter",
+    "structuredExample": {
+      "value": "1984",
+      "strict": true,
+      "name": null,
+      "structuredValue": 1984
+    }
+  },
+  "parameterIsbn": {
+    "name": "parameterIsbn",
+    "displayName": "ISBN parameter",
+    "typePropertyKind": "TYPE_EXPRESSION",
+    "type": [
+      "string"
+    ],
+    "example": "0321736079?",
+    "required": false,
+    "minLength": 10,
+    "structuredExample": {
+      "value": "0321736079?",
+      "strict": true,
+      "name": null,
+      "structuredValue": "0321736079?"
+    }
+  }
 }
 
-
-
-describe('RamlAutoRoute Test --------------- PARAMS to implement', () => {
-
-    it('Check that absoluteUri is correctly formed', (done) => {
+describe('AutoRouteParams Test', () => {
+    it('Check that getQueryParameters correctly formed', (done) => {
         var raml_auto_route = new RamlAutoRoute(raml_test_filepath)
-        var routes_list = raml_auto_route.getRoutes()
-        for (let route of routes_list) {
-            if (route.absoluteUri == test_route_object.absoluteUri) {
-                done();
-            }
+        var params = raml_auto_route.getQueryParameters('GetParamstestReadId')
+
+        if (params.hasOwnProperty('parameter1name')) {
+            done()
+        } else {
+                throw new Error('getQueryParameters dismatch: dont has parameter1name')
         }
-        throw new Error('Test route not found absoluteUri dismatch')
     })
 })
