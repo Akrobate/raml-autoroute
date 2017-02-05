@@ -29,6 +29,8 @@
     "ucfirst": "^1.0.0"
   },
   "devDependencies": {
-    "mocha": "^3.2.0"
+    "bluebird": "^3.4.7",
+    "mocha": "^3.2.0",
+    "raml-cop": "^3.0.0"
   }
 }

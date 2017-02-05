@@ -8,6 +8,7 @@ protocols:
 
 uses:
     TypeUser: types/user.raml
+    TypeParamsTest: types/paramsTest.raml
 
 /testroute:
     description: Test route !!! DO NOT MODIFY
@@ -37,7 +38,36 @@ uses:
                 type: string
                 example: "111"
         get:
-
+            queryParameters:
+              parameter1name:
+                displayName: String parameter
+                type: string
+                description: The String parameter
+                example: Value String parameter
+                required: false
+              parameter2name:
+                displayName: number parameter
+                type: number
+                description: the number parameter
+                example: 1984
+                required: false
+              parameterIsbn:
+                displayName: ISBN parameter
+                type: string
+                minLength: 10
+                required: false
+                example: 0321736079?
+            responses:
+                200:
+                    body:
+                        application/json:
+                            type: TypeUser.User
+                            example: !include examples/type.user.json
+        post:
+            queryParameters:
+                type: TypeParamsTest.ParamsTest
+            body:
+                application/json:
             responses:
                 200:
                     body:

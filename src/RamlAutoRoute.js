@@ -95,7 +95,8 @@ module.exports = class RamlAutoRoute {
                     verb: method.method,
                     absoluteUri: branch.absoluteUri,
                     absoluteUriFull: branch.absoluteUri.replace('{version}', version),
-                    example: reponse_200.body['application/json'].example
+                    example: reponse_200.body['application/json'].example,
+                    queryParameters: method.queryParameters
                 }
                 if (branch.uriParameters !== undefined ) {
                     current_route.uriParameters = branch.uriParameters
@@ -119,6 +120,7 @@ module.exports = class RamlAutoRoute {
                 route_id: flat_route.route_id,
                 // route_id: this._arf.generateUniqueRouteId(flat_route.absoluteUri, flat_route.verb, this.raml_file_baseuri),
                 verb: flat_route.verb,
+                queryParameters: flat_route.queryParameters,
                 absoluteUri: flat_route.absoluteUri,
                 absoluteUriFull: flat_route.absoluteUriFull,
                 // example: flat_route.example,
