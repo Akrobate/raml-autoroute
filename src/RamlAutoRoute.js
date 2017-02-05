@@ -1,5 +1,5 @@
 "use strict";
-// declare var require
+
 let camelcase = require("camelcase");
 let ucfirst = require("ucfirst");
 let raml1Parser = require('raml-1-parser');
@@ -9,9 +9,8 @@ let AutoRouteFormater = require('./AutoRouteFormater')
 let AutoRouteExamples = require('./AutoRouteExamples')
 let AutoRouteParams = require('./AutoRouteParams')
 let AutoRouteUses = require('./AutoRouteUses')
+let RamlJsonParser = require('./RamlJsonParser')
 
-// import * as bodyParser from "body-parser";
-// import * as express from "express";
 
 module.exports = class RamlAutoRoute {
 
@@ -25,7 +24,10 @@ module.exports = class RamlAutoRoute {
         this.raml_file = raml_file
         this.flat_routes = []
         this.enriched_routes = []
-        this.raml_json_schema = this.processRaml(this.raml_file)
+
+        this._ar_parser = new RamlJsonParser();
+
+        this.raml_json_schema = this._ar_parser.processRaml(this.raml_file)
         this._arf = new AutoRouteFormater()
 
         // Process the raml_file
@@ -33,8 +35,9 @@ module.exports = class RamlAutoRoute {
         this.enriched_routes = this.enrichFlatRoutes(this.flat_routes)
 
         this._are = new AutoRouteExamples(this.flat_routes)
-        this._arp = new AutoRouteParams(this.raml_json_schema)
-        this._aru = new AutoRouteUses(this.flat_routes)
+        this._arp = new AutoRouteParams(this.flat_routes)
+        this._aru = new AutoRouteUses(this.flat_routes, this.raml_json_schema)
+
     }
 
     getRoutes() {
@@ -62,22 +65,6 @@ module.exports = class RamlAutoRoute {
     setRamlFile(raml_file) {
         this.raml_file = raml_file
     }
-
-    processRaml(raml_file) {
-        var api = raml1Parser.loadApiSync(path.resolve(process.cwd(), raml_file));
-        api.errors().forEach(function(x){
-            console.log(JSON.stringify({
-                code: x.code,
-                message: x.message,
-                path: x.path,
-                start: x.start,
-                end: x.end,
-                isWarning: x.isWarning
-            },null,2));
-        });
-        return api.toJSON()
-    }
-
 
     getFlatRoutes() {
         return this.flat_routes

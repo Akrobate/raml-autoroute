@@ -1,9 +1,7 @@
 "use strict";
-// declare var require
+
 let camelcase = require("camelcase");
 let ucfirst = require("ucfirst");
-let raml1Parser = require('raml-1-parser');
-let path = require("path");
 
 module.exports = class AutoRouteFormater {
 

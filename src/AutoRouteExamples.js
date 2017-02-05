@@ -1,19 +1,11 @@
 "use strict";
-// declare var require
-let camelcase = require("camelcase");
-let ucfirst = require("ucfirst");
-let raml1Parser = require('raml-1-parser');
-let path = require("path");
-let AutoRouteFormater = require('./AutoRouteFormater')
 
-// import * as bodyParser from "body-parser";
-// import * as express from "express";
 
-module.exports = class AutoRouteExemples {
+
+module.exports = class AutoRouteExamples {
 
     constructor(flat_routes) {
         this.examples = this.extractExamples(flat_routes)
-        this._arf = new AutoRouteFormater()
     }
 
     getExample(route_id) {
@@ -25,7 +17,6 @@ module.exports = class AutoRouteExemples {
 
     extractExamples(flat_routes) {
         let examples_collection = {}
-
             let enriched_routes = [];
             for(let flat_route of flat_routes) {
                 if (flat_route.hasOwnProperty('example')) {

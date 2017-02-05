@@ -1,13 +1,6 @@
 "use strict";
-// declare var require
-let camelcase = require("camelcase");
-let ucfirst = require("ucfirst");
-let raml1Parser = require('raml-1-parser');
-let path = require("path");
-let AutoRouteFormater = require('./AutoRouteFormater')
 
-// import * as bodyParser from "body-parser";
-// import * as express from "express";
+let RamlJsonParser = require('./RamlJsonParser')
 
 module.exports = class AutoRouteUses {
 
@@ -15,7 +8,7 @@ module.exports = class AutoRouteUses {
         this.uses = {}
         this.raml_json_schema = raml_json_schema
         this.uses = this.extractUses(flat_routes)
-        this._arf = new AutoRouteFormater()
+        this._ar_parser = new RamlJsonParser();
     }
 
     getUses(uses_name) {
