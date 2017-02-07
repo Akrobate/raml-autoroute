@@ -80,3 +80,76 @@ console.log(JSON.stringify(example, null, 2))
 */
 
 ```
+
+### Extracting query parameters for a given route (unstable)
+
+Getting query parameters for a route extracted from a RAML1 specification. You can check the [RAML specification used for this example](https://github.com/Akrobate/raml-autoroute/tree/master/raml) in the repository
+
+```javascript
+var RamlAutoRoute = require('raml-autoroute')
+var raml_definition_filepath = './raml/api.raml'
+
+var auto_route = new RamlAutoRoute(raml_definition_filepath)
+
+var route_id = 'GetTestrouteId'
+var parameters = auto_route.getQueryParameters(route_id)
+
+console.log(JSON.stringify(parameters, null, 2))
+
+/** output
+{
+  "parameter1name": {
+    "name": "parameter1name",
+    "displayName": "String parameter",
+    "typePropertyKind": "TYPE_EXPRESSION",
+    "type": [
+      "string"
+    ],
+    "example": "Value String parameter",
+    "required": false,
+    "description": "The String parameter",
+    "structuredExample": {
+      "value": "Value String parameter",
+      "strict": true,
+      "name": null,
+      "structuredValue": "Value String parameter"
+    }
+  },
+  "parameter2name": {
+    "name": "parameter2name",
+    "displayName": "number parameter",
+    "typePropertyKind": "TYPE_EXPRESSION",
+    "type": [
+      "number"
+    ],
+    "example": 1984,
+    "required": false,
+    "description": "the number parameter",
+    "structuredExample": {
+      "value": "1984",
+      "strict": true,
+      "name": null,
+      "structuredValue": 1984
+    }
+  },
+  "parameterIsbn": {
+    "name": "parameterIsbn",
+    "displayName": "ISBN parameter",
+    "typePropertyKind": "TYPE_EXPRESSION",
+    "type": [
+      "string"
+    ],
+    "example": "0321736079?",
+    "required": false,
+    "minLength": 10,
+    "structuredExample": {
+      "value": "0321736079?",
+      "strict": true,
+      "name": null,
+      "structuredValue": "0321736079?"
+    }
+  }
+}
+*/
+
+```
