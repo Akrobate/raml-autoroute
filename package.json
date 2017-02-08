@@ -1,6 +1,6 @@
 {
   "name": "raml-autoroute",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Module to easily work with RAML1 specification in order to integrate dynamic checks, routing and controls in your API server implementation.",
   "main": "index.js",
   "scripts": {
