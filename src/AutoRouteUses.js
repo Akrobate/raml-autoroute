@@ -19,6 +19,15 @@ module.exports = class AutoRouteUses {
     }
 
     extractUses(raml_json_schema) {
-
+        this.uses = raml_json_schema.uses
     }
+
+    enrichUses(uses) {
+        let uses_enriched = []
+        for (use of uses) {
+            uses_enriched.push(use)
+        }
+        return uses_enriched
+    }
+
 }
