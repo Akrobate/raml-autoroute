@@ -1,6 +1,8 @@
 "use strict";
 var RamlAutoRoute = require('./src/RamlAutoRoute')
+var AutoRouteUses = require('./src/AutoRouteUses')
 var auto_route = new RamlAutoRoute('./raml/api.raml')
+var auto_route = new AutoRouteUses('./raml/types/paramsTest.raml')
 
 //console.log(JSON.stringify(auto_route.getRamlJsonSchema(), null, 2))
  // console.log(JSON.stringify(auto_route.getRoutes(), null, 2))
