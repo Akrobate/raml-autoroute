@@ -13,7 +13,7 @@ var test_route_object = {
 }
 
 describe('RamlRouteUses Test', () => {
-    it('Check extractet uses is correct', (done) => {
+    it('Check extracted uses is correct', (done) => {
         var raml_auto_route = new RamlAutoRoute(raml_test_filepath)
         done()
 

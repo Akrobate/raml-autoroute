@@ -36,7 +36,7 @@ module.exports = class RamlAutoRoute {
 
         this._are = new AutoRouteExamples(this.flat_routes)
         this._arp = new AutoRouteParams(this.flat_routes)
-        this._aru = new AutoRouteUses(this.flat_routes, this.raml_json_schema)
+        // this._aru = new AutoRouteUses(this.flat_routes, this.raml_json_schema)
 
     }
 
