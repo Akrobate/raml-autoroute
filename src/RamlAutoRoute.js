@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 let camelcase = require("camelcase");
 let ucfirst = require("ucfirst");
